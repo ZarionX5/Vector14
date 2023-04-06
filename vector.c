@@ -4,9 +4,9 @@
 Vector createVector(size_t n) {
     int *data = (int *) (malloc(sizeof(int) * n));
 
-    if (n == 0) {
+    if (n == 0)
         data = NULL;
-    } else if (data == NULL) {
+    else if (data == NULL) {
         fprintf(stderr, "bad alloc");
         exit(1);
     }
@@ -22,9 +22,9 @@ void reserve(Vector *v, size_t newCapacity) {
     if (newCapacity < v->size)
         v->size = newCapacity;
 
-    if (newCapacity == 0) {
+    if (newCapacity == 0)
         v->data = NULL;
-    } else if (v->data == NULL) {
+    else if (v->data == NULL) {
         fprintf(stderr, "bad alloc");
         exit(1);
     }
@@ -38,6 +38,7 @@ void clear(Vector *v) {
 
 void shrinkToFit(Vector *v) {
     v->data = (int *) (realloc(v->data, sizeof(int) * v->size));
+    v->capacity = v->size;
 }
 
 
@@ -73,13 +74,12 @@ void popBack(Vector *v) {
     if (isEmpty(v)) {
         fprintf(stderr, "bad popBack");
         exit(1);
-    } else {
+    } else
         v->size--;
-    }
 }
 
 
-int* atVector(Vector *v, size_t index) {
+int *atVector(Vector *v, size_t index) {
     if (index >= v->size) {
         fprintf(stderr, "IndexError: a[%zu] is not exists", index);
         exit(1);
@@ -89,11 +89,11 @@ int* atVector(Vector *v, size_t index) {
 }
 
 
-int* back(Vector *v) {
-    return atVector(v, v->size-1);
+int *back(Vector *v) {
+    return atVector(v, v->size - 1);
 }
 
 
-int* front(Vector *v) {
+int *front(Vector *v) {
     return atVector(v, 0);
 }
