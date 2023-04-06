@@ -17,10 +17,11 @@ Vector createVector(size_t n) {
 
 void reserve(Vector *v, size_t newCapacity) {
     v->data = (int *) (realloc(v->data, sizeof(int) * newCapacity));
+    v->capacity = newCapacity;
 
-    if (newCapacity < v->size) {
+    if (newCapacity < v->size)
         v->size = newCapacity;
-    }
+
     if (newCapacity == 0) {
         v->data = NULL;
     } else if (v->data == NULL) {
@@ -62,7 +63,7 @@ int getVectorValue(Vector *v, size_t i) {
 
 void pushBack(Vector *v, int x) {
     while (v->size >= v->capacity)
-        reserve(v, v->capacity * 2);
+        reserve(v, v->capacity > 0 ? v->capacity * 2 : 1);
 
     v->data[v->size++] = x;
 }
@@ -75,4 +76,24 @@ void popBack(Vector *v) {
     } else {
         v->size--;
     }
+}
+
+
+int* atVector(Vector *v, size_t index) {
+    if (index >= v->size) {
+        fprintf(stderr, "IndexError: a[%zu] is not exists", index);
+        exit(1);
+    }
+
+    return &v->data[index];
+}
+
+
+int* back(Vector *v) {
+    return atVector(v, v->size-1);
+}
+
+
+int* front(Vector *v) {
+    return atVector(v, 0);
 }
